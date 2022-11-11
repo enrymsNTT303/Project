@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
- * @author Nguyen Phan Nhat Thien B1910708
+ * @author Clover Enryms
  */
 
 
@@ -19,7 +19,7 @@ public class connection {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quanlicuahang", "root","root");
             return con;
         } catch (Exception e) {
-            Logger.getLogger(managerLogin.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null,"Not Connected \n\n"+e+"\n\n");
             return null;
          }   
