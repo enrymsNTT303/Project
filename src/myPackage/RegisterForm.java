@@ -42,7 +42,7 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbl_phoneNum = new javax.swing.JLabel();
         jTextField_FN = new javax.swing.JTextField();
         jTextField_LN = new javax.swing.JTextField();
         jTextField_UN = new javax.swing.JTextField();
@@ -55,7 +55,7 @@ public class RegisterForm extends javax.swing.JFrame {
         jPasswordField_REPASS = new javax.swing.JPasswordField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_ADDRESS = new javax.swing.JTextArea();
-        jDateChooser_BDATE = new com.toedter.calendar.JDateChooser();
+        txt_phoneNum = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,9 +108,9 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Address:");
 
-        jLabel7.setBackground(new java.awt.Color(204, 255, 204));
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel7.setText("Date Of Birth:");
+        lbl_phoneNum.setBackground(new java.awt.Color(204, 255, 204));
+        lbl_phoneNum.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lbl_phoneNum.setText("Phone Number:");
 
         jTextField_FN.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField_FN.setMinimumSize(new java.awt.Dimension(7, 40));
@@ -224,7 +224,7 @@ public class RegisterForm extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btn_Register)
-                                .addComponent(jLabel7)))
+                                .addComponent(lbl_phoneNum)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(48, 48, 48)
@@ -234,7 +234,7 @@ public class RegisterForm extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jDateChooser_BDATE, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txt_phoneNum, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jPasswordField_REPASS, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                                         .addComponent(jPasswordField_PASS, javax.swing.GroupLayout.Alignment.LEADING))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -270,9 +270,11 @@ public class RegisterForm extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jPasswordField_REPASS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jDateChooser_BDATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txt_phoneNum, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2))
+                    .addComponent(lbl_phoneNum))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -307,8 +309,9 @@ public class RegisterForm extends javax.swing.JFrame {
         String uname = jTextField_UN.getText();
         String pass = String.valueOf(jPasswordField_PASS.getPassword());
         String re_pass= String.valueOf(jPasswordField_REPASS.getPassword());
-        String bdate = null;
+        String phoneNum = txt_phoneNum.getText();
         String address = jTextArea_ADDRESS.getText();
+        
         if(uname.equals("")){
             JOptionPane.showMessageDialog(null, "Add a UserName");
         }else if (pass.equals("")){
@@ -319,26 +322,16 @@ public class RegisterForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "This UserName Already Exist!");
         }
         
-        else{
-            if(jDateChooser_BDATE.getDate()!= null){
-            SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-            bdate = dateformat.format(jDateChooser_BDATE.getDate());
-        }
         PreparedStatement ps;
-        String query = "INSERT INTO app_users(u_fname, u_lname, u_uname, u_pass, u_bdate, u_address) values(?,?,?,?,?,?);";
+        String query = "INSERT INTO managerUser(m_accountN, m_accountP, m_firstName, m_lastName, m_addr, m_phoneNum) values(?,?,?,?,?,?);";
         try {
             ps = connection.getConnection().prepareStatement(query);
-            ps.setString(1, fname);
-            ps.setString(2, lname);
-            ps.setString(3, uname);
-            ps.setString(4, pass);
-                
-            if(bdate != null){
-                ps.setString(5, bdate);
-            }else {
-                ps.setNull(5,0);
-            }
-            ps.setString(6, address);
+            ps.setString(1, uname);
+            ps.setString(2, pass);
+            ps.setString(3, fname);
+            ps.setString(4, lname);
+            ps.setString(5, address);    
+            ps.setString(6, phoneNum);
 
             if(ps.executeUpdate()> 0){
                 JOptionPane.showMessageDialog(null, "New User Added!!");
@@ -349,8 +342,11 @@ public class RegisterForm extends javax.swing.JFrame {
         System.out.println("Firstname => "+jTextField_FN.getText());
         System.out.println("Lastname => "+jTextField_LN.getText());
         System.out.println("Username => "+jTextField_UN.getText());
+        System.out.println("Password => "+String.valueOf(jPasswordField_PASS.getPassword()));
         System.out.println("Address => "+jTextArea_ADDRESS.getText());
-        }
+        System.out.println("Phone Number => "+txt_phoneNum.getText());
+        
+        
         
     }//GEN-LAST:event_btn_RegisterActionPerformed
     //FUNCTION  to check if the username already exist
@@ -358,7 +354,7 @@ public class RegisterForm extends javax.swing.JFrame {
         PreparedStatement ps;
         ResultSet rs;
         boolean checkUser = false;
-        String query = "SELECT *FROM app_users WHERE u_uname=?";
+        String query = "SELECT *FROM managerUser WHERE m_accountN=?";
         try {
             ps = connection.getConnection().prepareStatement(query);
             ps.setString(1, username);
@@ -444,14 +440,12 @@ public class RegisterForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Register;
     private javax.swing.JButton jButton_CANCEL;
-    private com.toedter.calendar.JDateChooser jDateChooser_BDATE;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_clickToLogin;
     private javax.swing.JPanel jPanel1;
@@ -465,5 +459,7 @@ public class RegisterForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_FN;
     private javax.swing.JTextField jTextField_LN;
     private javax.swing.JTextField jTextField_UN;
+    private javax.swing.JLabel lbl_phoneNum;
+    private javax.swing.JTextField txt_phoneNum;
     // End of variables declaration//GEN-END:variables
 }

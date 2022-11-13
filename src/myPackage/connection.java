@@ -16,7 +16,7 @@ public class connection {
         Connection con = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quanlicuahang", "root","root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/manageStore", "root","root");
             return con;
         } catch (Exception e) {
             Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, e);
